@@ -3,6 +3,7 @@ use crate::error;
 pub trait EvalOption<T> {
     fn eval(self) -> T;
     fn eval_or(self, sub: T) -> T;
+    fn eval_or_default(self) -> T where T: Default;
 }
 
 impl<T> EvalOption<T> for Option<T> {
@@ -17,6 +18,13 @@ impl<T> EvalOption<T> for Option<T> {
         match self {
             Some(v) => v,
             None => sub
+        }
+    }
+
+    fn eval_or_default(self) -> T where T: Default {
+        match self {
+            Some(v) => v,
+            None => Default::default(),
         }
     }
 }
