@@ -21,13 +21,3 @@ impl<T, E: std::fmt::Debug> EvalResult<T, E> for Result<T, E> {
         }
     }
 }
-
-impl <T, E> EvalResult<T, E> for Option<T> {
-    fn eval(self) -> T where E: std::fmt::Debug {
-        todo!()
-    }
-
-    fn eval_or(self, sub: T) -> T {
-        todo!()
-    }
-}
