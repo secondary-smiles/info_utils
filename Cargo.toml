@@ -10,5 +10,7 @@ readme = "README.md"
 [package]
 license = "MIt"
 license-file = "LICENSE.txt"
+keywords = ["macro", "log", "logging", "error", "unwrap"]
+categories = ["command-line-interface", "development-tools::debugging", "rust-patterns"]
 
 [dependencies]
