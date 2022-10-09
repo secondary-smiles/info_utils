@@ -15,7 +15,7 @@ pub trait EvalOption<T> {
 impl<T> EvalOption<T> for Option<T> {
     /// Drop-in for the `unwrap()` function
     ///
-    /// returns `v` if some; else calls an `error!`
+    /// returns `v` if `Some`; else calls an `error!`
     ///
     /// Example
     /// ```rust
@@ -40,7 +40,7 @@ impl<T> EvalOption<T> for Option<T> {
 
     /// Drop-in for the `unwrap_or()` function
     ///
-    /// returns `v` if some; else returns `sub`
+    /// returns `v` if `Some`; else returns `sub`
     ///
     /// Example
     /// ```rust
@@ -69,7 +69,7 @@ impl<T> EvalOption<T> for Option<T> {
 
     /// Drop-in for the `unwrap_or_default()` function
     ///
-    /// returns `v` if some; else returns default value for type `T`
+    /// returns `v` if `Some`; else returns default value for type `T`
     ///
     /// Example
     /// ```rust
@@ -98,7 +98,7 @@ impl<T> EvalOption<T> for Option<T> {
 
     /// Drop-in for the `unwrap_or_else()` function
     ///
-    /// returns `v` if some; else returns return value of function `func`
+    /// returns `v` if `Some`; else returns return value of function `func`
     ///
     /// Example
     /// ```rust

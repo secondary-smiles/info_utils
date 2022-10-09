@@ -9,7 +9,7 @@ pub trait EvalResult<T, E> {
     fn eval(self) -> T where E: std::fmt::Debug;
     fn eval_or(self, sub: T) -> T;
     fn eval_or_default(self) -> T where T: Default;
-    fn eval_or_else<F>(self, func: F) -> T where F: FnOnce() -> T;
+    fn eval_or_else<F>(self, func: F) -> T where F: FnOnce(E) -> T;
 }
 
 impl<T, E: std::fmt::Debug> EvalResult<T, E> for Result<T, E> {
@@ -85,18 +85,17 @@ impl<T, E: std::fmt::Debug> EvalResult<T, E> for Result<T, E> {
     /// ```rust
     /// # use crate::log_utils::prelude::*;
     /// # fn main() {
-    ///     let d = "ok";
     ///     let mut foo: Result<u16, &str> = Ok(7);
-    ///     assert_eq!(foo.eval_or_else(|| d.len() as u16), 7);
+    ///     assert_eq!(foo.eval_or_else(|d| d.len() as u16), 7);
     ///
     ///     foo = Err("error");
-    ///     assert_eq!(foo.eval_or_else(|| d.len() as u16), 2);
+    ///     assert_eq!(foo.eval_or_else(|d| d.len() as u16), 5);
     /// # }
     /// ```
-    fn eval_or_else<F>(self, func: F) -> T where F: FnOnce() -> T {
+    fn eval_or_else<F>(self, func: F) -> T where F: FnOnce(E) -> T {
         match self {
             Ok(v) => v,
-            Err(e) => func(),
+            Err(e) => func(e),
         }
     }
 }
@@ -131,11 +130,10 @@ mod tests {
 
     #[test]
     fn test_eval_or_else() {
-        let d = "ok";
         let mut foo: Result<u16, &str> = Ok(7);
-        assert_eq!(foo.eval_or_else(|| d.len() as u16), 7);
+        assert_eq!(foo.eval_or_else(|d| d.len() as u16), 7);
 
         foo = Err("error");
-        assert_eq!(foo.eval_or_else(|| d.len() as u16), 2);
+        assert_eq!(foo.eval_or_else(|d| d.len() as u16), 5);
     }
 }
