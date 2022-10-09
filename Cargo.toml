@@ -6,8 +6,7 @@ authors = ["secondary-smiles <shavkinder@lightblog.dev>"]
 repository = "https://github.com/secondary-smiles/info_utils"
 description = "Utilities for displaying Options, Results, and logging in a pleasant manner"
 readme = "README.md"
-license = "MIt"
-license-file = "LICENSE.txt"
+license = "MIT"
 keywords = ["macro", "log", "logging", "error", "unwrap"]
 categories = ["command-line-interface", "development-tools::debugging", "rust-patterns"]
 
