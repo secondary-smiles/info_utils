@@ -3,6 +3,7 @@ name = "info_utils"
 version = "1.0.0"
 edition = "2021"
 authors = ["secondary-smiles <shavkinder@lightblog.dev>"]
+repository = "https://github.com/secondary-smiles/info_utils"
 description = "Utilities for displaying Options, Results, and logging in a pleasant manner"
 readme = "README.md"
 license = "MIt"
