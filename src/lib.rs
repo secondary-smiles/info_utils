@@ -16,3 +16,8 @@ pub mod prelude {
     pub use crate::eval::eval_option::EvalOption;
     pub use crate::eval::eval_result::EvalResult;
 }
+
+/// Import only logging macros
+pub mod macros {
+    pub use crate::{log, error, warn};
+}
