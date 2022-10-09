@@ -34,7 +34,7 @@ impl<T> EvalOption<T> for Option<T> {
     fn eval(self) -> T {
         match self {
             Some(v) => v,
-            None => error!("called `Option::unwrap()` on a `None` value")
+            None => error!("called `Option::eval()` on a `None` value")
         }
     }
 
@@ -113,10 +113,10 @@ impl<T> EvalOption<T> for Option<T> {
     /// };
     ///
     /// let bar = 10;
-    /// assert_eq!(val.data.unwrap_or_else(|| 3 * bar), 7);
+    /// assert_eq!(val.data.eval_or_else(|| 3 * bar), 7);
     ///
     /// val.data = None;
-    /// assert_eq!(val.data.unwrap_or_else(|| 3 * bar), 30);
+    /// assert_eq!(val.data.eval_or_else(|| 3 * bar), 30);
     /// # }
     /// ```
     fn eval_or_else<F>(self, func: F) -> T where F: FnOnce() -> T {
@@ -186,9 +186,9 @@ mod tests {
         };
 
         let bar = 10;
-        assert_eq!(val.data.unwrap_or_else(|| 3 * bar), 7);
+        assert_eq!(val.data.eval_or_else(|| 3 * bar), 7);
 
         val.data = None;
-        assert_eq!(val.data.unwrap_or_else(|| 3 * bar), 30);
+        assert_eq!(val.data.eval_or_else(|| 3 * bar), 30);
     }
 }
