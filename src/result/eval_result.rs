@@ -37,3 +37,41 @@ impl<T, E: std::fmt::Debug> EvalResult<T, E> for Result<T, E> {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_eval() {
+        let foo: Result<u16, &str> = Ok(7);
+        assert_eq!(foo.eval(), 7);
+    }
+
+    #[test]
+    fn test_eval_or() {
+        let mut foo: Result<u16, &str> = Ok(7);
+        assert_eq!(foo.eval_or(3), 7);
+
+        foo = Err("error");
+        assert_eq!(foo.eval_or(3), 3);
+    }
+
+    #[test]
+    fn test_eval_or_default() {
+        let mut foo: Result<u16, &str> = Ok(7);
+        assert_eq!(foo.eval_or_default(), 7);
+
+        foo = Err("error");
+        assert_eq!(foo.eval_or_default(), 0);
+    }
+
+    #[test]
+    fn test_eval_or_else() {
+        let mut foo: Result<u16, &str> = Ok(7);
+        assert_eq!(foo.unwrap_or_else(|s| s.len() as u16), 7);
+
+        foo = Err("error");
+        assert_eq!(foo.unwrap_or_else(|s| s.len() as u16), 5);
+    }
+}
