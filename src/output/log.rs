@@ -2,11 +2,10 @@
 macro_rules! log {
     ($msg:expr) => {
         {
-            eprintln!("\x1b[1;34mLog: {{\x1b[0m");
+            eprintln!("\x1b[1;34mINFO:\x1b[0m");
             for line in $msg.lines() {
-                eprintln!("  {}", line);
+                eprintln!("  {:?} | {}", std::thread::current().name().unwrap_or("unknown"), line);
             }
-            eprintln!("\x1b[1;34m}}\x1b[0m");
         }
     }
 }
