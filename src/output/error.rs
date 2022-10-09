@@ -1,5 +1,5 @@
 #[macro_export]
-macro_rules! err {
+macro_rules! error {
     ($msg:expr, $code:expr) => {
         {
             eprintln!("\x1b[1;31mErr: {{\x1b[0m");
