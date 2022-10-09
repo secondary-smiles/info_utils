@@ -4,6 +4,7 @@ pub trait EvalOption<T> {
     fn eval(self) -> T;
     fn eval_or(self, sub: T) -> T;
     fn eval_or_default(self) -> T where T: Default;
+    fn eval_or_else<F>(self, func: F) -> T where F: FnOnce() -> T;
 }
 
 impl<T> EvalOption<T> for Option<T> {
@@ -25,6 +26,13 @@ impl<T> EvalOption<T> for Option<T> {
         match self {
             Some(v) => v,
             None => Default::default(),
+        }
+    }
+
+    fn eval_or_else<F>(self, func: F) -> T where F: FnOnce() -> T {
+        match self {
+            Some(v) => v,
+            None => func(),
         }
     }
 }
