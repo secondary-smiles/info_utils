@@ -5,9 +5,6 @@ edition = "2021"
 authors = ["secondary-smiles <shavkinder@lightblog.dev>"]
 description = "Utilities for displaying Options, Results, and logging in a pleasant manner"
 readme = "README.md"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-[package]
 license = "MIt"
 license-file = "LICENSE.txt"
 keywords = ["macro", "log", "logging", "error", "unwrap"]
