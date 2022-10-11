@@ -8,6 +8,8 @@ Utilities for logging and error-handling in Rust.
 
 - `eval()` as a drop in for `unwrap()`
 
+- `should()` as a drop in for `expect()`
+
 - Info Utils also provides `eval_or()`, `eval_or_default()`, and `eval_or_else()` functions as drop-ins for the corresponding `unwrap()` functions.
 
 ## Usage
@@ -16,7 +18,7 @@ Add the following to your `cargo.toml`:
 
 ```toml
 [dependencies]
-info_utils = "1.0.1"
+info_utils = "1.2.0"
 ```
 
 ### Use in Rust Code
