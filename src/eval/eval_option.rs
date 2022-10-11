@@ -10,6 +10,7 @@ pub trait EvalOption<T> {
     fn eval_or(self, sub: T) -> T;
     fn eval_or_default(self) -> T where T: Default;
     fn eval_or_else<F>(self, func: F) -> T where F: FnOnce() -> T;
+    fn should<M>(self, panic: M) -> T where M: std::fmt::Display;
 }
 
 impl<T> EvalOption<T> for Option<T> {
@@ -19,7 +20,7 @@ impl<T> EvalOption<T> for Option<T> {
     ///
     /// Example
     /// ```rust
-    /// # use crate::log_utils::prelude::*;
+    /// # use crate::info_utils::prelude::*;
     /// # fn main() {
     /// struct Foo {
     ///      data: Option<i32>,
@@ -44,7 +45,7 @@ impl<T> EvalOption<T> for Option<T> {
     ///
     /// Example
     /// ```rust
-    /// # use crate::log_utils::prelude::*;
+    /// # use crate::info_utils::prelude::*;
     /// # fn main() {
     ///  struct Foo<'a> {
     ///     data: Option<&'a str>,
@@ -73,7 +74,7 @@ impl<T> EvalOption<T> for Option<T> {
     ///
     /// Example
     /// ```rust
-    /// # use crate::log_utils::prelude::*;
+    /// # use crate::info_utils::prelude::*;
     /// # fn main() {
     /// struct Foo {
     ///    data: Option<i32>,
@@ -102,7 +103,7 @@ impl<T> EvalOption<T> for Option<T> {
     ///
     /// Example
     /// ```rust
-    /// # use crate::log_utils::prelude::*;
+    /// # use crate::info_utils::prelude::*;
     /// # fn main() {
     /// struct Foo {
     ///     data: Option<i32>,
@@ -123,6 +124,37 @@ impl<T> EvalOption<T> for Option<T> {
         match self {
             Some(v) => v,
             None => func(),
+        }
+    }
+
+    /// Drop-in for the `expect()` function
+    ///
+    /// returns `v` if `Some`; else errors with `panic` message where `panic` implements std::fmt::Display
+    ///
+    /// Example
+    /// ```rust
+    /// # use crate::info_utils::prelude::*;
+    /// # fn main() {
+    /// struct Foo {
+    ///     data: Option<i32>,
+    /// }
+    ///
+    /// let mut val: Foo = Foo {
+    ///     data: Some(7)
+    /// };
+    ///
+    /// assert_eq!(val.data.should("Should be set in initializer"), 7);
+    ///
+    /// /* Errors with message "Should be set in initializer":
+    /// val.data = None;
+    /// val.data.eval_err("Should be set in initializer");
+    /// */
+    /// # }
+    /// ```
+    fn should<M>(self, panic: M) -> T where M: std::fmt::Display {
+        match self {
+            Some(v) => v,
+            None => error!("{}", panic),
         }
     }
 }
@@ -190,5 +222,23 @@ mod tests {
 
         val.data = None;
         assert_eq!(val.data.eval_or_else(|| 3 * bar), 30);
+    }
+
+    #[test]
+    fn test_should() {
+        struct Foo {
+            data: Option<i32>,
+        }
+
+        let val: Foo = Foo {
+            data: Some(7)
+        };
+        assert_eq!(val.data.should("Data set to Some by initialization"), 7);
+
+        // Also works with other data types that implement std::fmt::Display
+        let val: Foo = Foo {
+            data: Some(7)
+        };
+        assert_eq!(val.data.should(7 as f32 * 3.7), 7);
     }
 }

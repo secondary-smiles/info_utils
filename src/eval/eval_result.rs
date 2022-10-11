@@ -2,6 +2,7 @@
 //!
 //! `eval()` implemented for the `Result<T, E>` type
 
+use std::fmt::Display;
 use crate::{error};
 
 /// Eval Option trait that enables `eval()` for the `Result<T, E>` type
@@ -10,6 +11,7 @@ pub trait EvalResult<T, E> {
     fn eval_or(self, sub: T) -> T;
     fn eval_or_default(self) -> T where T: Default;
     fn eval_or_else<F>(self, func: F) -> T where F: FnOnce(E) -> T;
+    fn should<M>(self, panic: M) -> T where M: std::fmt::Display;
 }
 
 impl<T, E: std::fmt::Debug> EvalResult<T, E> for Result<T, E> {
@@ -19,7 +21,7 @@ impl<T, E: std::fmt::Debug> EvalResult<T, E> for Result<T, E> {
     ///
     /// Example
     /// ```rust
-    /// # use crate::log_utils::prelude::*;
+    /// # use crate::info_utils::prelude::*;
     /// # fn main() {
     ///     let foo: Result<u16, &str> = Ok(7);
     ///     assert_eq!(foo.eval(), 7);
@@ -40,7 +42,7 @@ impl<T, E: std::fmt::Debug> EvalResult<T, E> for Result<T, E> {
     ///
     /// Example
     /// ```rust
-    /// # use crate::log_utils::prelude::*;
+    /// # use crate::info_utils::prelude::*;
     /// # fn main() {     ///
     ///     let mut foo: Result<u16, &str> = Ok(7);    ///
     ///     assert_eq!(foo.eval_or(3), 7);
@@ -62,7 +64,7 @@ impl<T, E: std::fmt::Debug> EvalResult<T, E> for Result<T, E> {
     ///
     /// Example
     /// ```rust
-    /// # use crate::log_utils::prelude::*;
+    /// # use crate::info_utils::prelude::*;
     /// # fn main() {
     ///     let mut foo: Result<u16, &str> = Ok(7);
     ///     assert_eq!(foo.eval_or_default(), 7);
@@ -83,7 +85,7 @@ impl<T, E: std::fmt::Debug> EvalResult<T, E> for Result<T, E> {
     ///
     /// Example
     /// ```rust
-    /// # use crate::log_utils::prelude::*;
+    /// # use crate::info_utils::prelude::*;
     /// # fn main() {
     ///     let mut foo: Result<u16, &str> = Ok(7);
     ///     assert_eq!(foo.eval_or_else(|d| d.len() as u16), 7);
@@ -96,6 +98,25 @@ impl<T, E: std::fmt::Debug> EvalResult<T, E> for Result<T, E> {
         match self {
             Ok(v) => v,
             Err(e) => func(e),
+        }
+    }
+
+    /// Drop-in for the `expect()` function
+    ///
+    /// returns `v` if `Ok()`; else errors with `panic` message and `Err()` value where `panic` implements std::fmt::Display
+    ///
+    /// Example
+    /// ```rust
+    /// # use crate::info_utils::prelude::*;
+    /// # fn main() {
+    ///     let foo: Result<u16, &str> = Ok(7);
+    ///     assert_eq!(foo.should("Should be set in initializer"), 7);
+    /// # }
+    /// ```
+    fn should<M>(self, panic: M) -> T where M: Display {
+        match self {
+            Ok(v) => v,
+            Err(e) => error!("{}. Error: {:?}", panic, e)
         }
     }
 }
@@ -135,5 +156,11 @@ mod tests {
 
         foo = Err("error");
         assert_eq!(foo.eval_or_else(|d| d.len() as u16), 5);
+    }
+
+    #[test]
+    fn test_eval_err() {
+        let foo: Result<u16, &str> = Ok(7);
+        assert_eq!(foo.should("Should be set in initializer"), 7);
     }
 }
