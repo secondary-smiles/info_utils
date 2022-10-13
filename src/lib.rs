@@ -11,7 +11,7 @@ pub mod eval;
 
 /// Import all features
 pub mod prelude {
-    pub use crate::{log, error, warn};
+    pub use crate::{log, error, warn, terror};
 
     pub use crate::eval::eval_option::EvalOption;
     pub use crate::eval::eval_result::EvalResult;
@@ -19,5 +19,5 @@ pub mod prelude {
 
 /// Import only logging macros
 pub mod macros {
-    pub use crate::{log, error, warn};
+    pub use crate::{log, error, warn, terror};
 }
