@@ -1,3 +1,18 @@
+///# Error
+/// Logs errors and then kills the program with exit code 1.
+///
+///## ⚠WARNING⚠
+/// `error!` will kill the entire program. Using `error!` inside a thread will not stop that thread, it will stop the entire application.
+/// `error!` is only meant to be used in situations where a recovery is impossible.
+///
+/// Example
+/// ```rust
+///# use info_utils::prelude::*;
+///# fn main()  {
+///     // Something is happening..
+///     // Uh oh, and error has occurred.
+///     error!("Something unrecoverable went wrong!");
+///# }
 #[macro_export]
 macro_rules! error {
     ($($msg:tt)*) => {{

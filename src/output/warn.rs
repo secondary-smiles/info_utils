@@ -1,3 +1,14 @@
+///# Warn
+/// Same as `log!`, but more visually distinct and noticeable.
+///
+/// Example
+/// ```rust
+///# use info_utils::prelude::*;
+///# fn main() {
+///     let data = "important information";
+///     warn!("program data: {}", data);
+///# }
+/// ```
 #[macro_export]
 macro_rules! warn {
     ($($msg:tt)*) => {{
