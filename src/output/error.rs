@@ -6,7 +6,7 @@
 /// `error!` is only meant to be used in situations where a recovery is impossible.
 ///
 /// Example
-/// ```rust
+/// ```no_run
 ///# use info_utils::prelude::*;
 ///# fn main()  {
 ///     // Something is happening..
