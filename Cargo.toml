@@ -1,6 +1,6 @@
 [package]
 name = "info_utils"
-version = "1.2.0"
+version = "1.3.0"
 edition = "2021"
 authors = ["secondary-smiles <shavkinder@lightblog.dev>"]
 repository = "https://github.com/secondary-smiles/info_utils"

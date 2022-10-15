@@ -129,6 +129,11 @@ impl<T> EvalOption<T> for Option<T> {
 
     /// Drop-in for the `expect()` function
     ///
+    ///## ⚠WARNING⚠
+    /// Currently, the `should()` function calls the `error!` macro instead of the `terror!` macro on a failure. See the warnings on each of those macros for more information.
+    ///
+    /// This may cause unexpected behaviour, so be careful using it in threads
+    ///
     /// returns `v` if `Some`; else errors with `panic` message where `panic` implements std::fmt::Display
     ///
     /// Example

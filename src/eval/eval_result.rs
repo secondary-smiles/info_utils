@@ -103,6 +103,11 @@ impl<T, E: std::fmt::Debug> EvalResult<T, E> for Result<T, E> {
 
     /// Drop-in for the `expect()` function
     ///
+    ///## ⚠WARNING⚠
+    /// Currently, the `should()` function calls the `error!` macro instead of the `terror!` macro on a failure. See the warnings on each of those macros for more information.
+    ///
+    /// This may cause unexpected behaviour, so be careful using it in threads
+    ///
     /// returns `v` if `Ok()`; else errors with `panic` message and `Err()` value where `panic` implements std::fmt::Display
     ///
     /// Example

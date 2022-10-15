@@ -4,13 +4,13 @@ Utilities for logging and error-handling in Rust.
 
 ## Features
 
-- `log!`, `warn!`, and `error!` macros for convenient and informational data display
+- `log!`, `warn!`, `terror!`, and `error!` macros for convenient and informational data display
 
 - `eval()` as a drop in for `unwrap()`
 
 - `should()` as a drop in for `expect()`
 
-- Info Utils also provides `eval_or()`, `eval_or_default()`, and `eval_or_else()` functions as drop-ins for the corresponding `unwrap()` functions.
+- Info Utils also provides `eval_or()`, `eval_or_default()`, and `eval_or_else()` functions as drop-ins for the corresponding `unwrap_*()` functions.
 
 ## Usage
 
@@ -18,7 +18,7 @@ Add the following to your `cargo.toml`:
 
 ```toml
 [dependencies]
-info_utils = "1.2.0"
+info_utils = "1.3.0"
 ```
 
 ### Use in Rust Code
