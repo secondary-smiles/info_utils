@@ -128,7 +128,7 @@ fn main() {
      Running `target/debug/demo`INFO
 INFO
 ["main"]:
-  Optizon: valid value
+  Option: valid value
   Value: everything's fine
 ERR
 ["main"]:
