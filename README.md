@@ -47,13 +47,13 @@ fn main() {
      Running `target/debug/demo`
 INFO
 ["main"]:
-  Value is 10
+Value is 10
 WARN
 ["main"]:
-  10 is greater than 3
+10 is greater than 3
 ERR
 ["main"]:
-  x is equal to 10, exiting..
+x is equal to 10, exiting..
 ```
 
 > Terminal output is color formatted
@@ -92,13 +92,13 @@ fn main() {
      Running `target/debug/demo`
 INFO
 ["main"]:
-  Hello from main thread!
+Hello from main thread!
 WARN
 ["<unknown>"]:
-  This thread doesn't have a name!
+This thread doesn't have a name!
 INFO
 ["named thread"]:
-  Hello from inside a named thread!
+Hello from inside a named thread!
 ```
 
 #### Eval
@@ -128,11 +128,11 @@ fn main() {
      Running `target/debug/demo`INFO
 INFO
 ["main"]:
-  Option: valid value
-  Value: everything's fine
+Option: valid value
+Value: everything's fine
 ERR
 ["main"]:
-  "oh no something happened!"
+"oh no something happened!"
 ```
 
 ##### Other Functions
@@ -170,23 +170,23 @@ fn main() {
      Running `target/debug/demo`INFO
 INFO
 ["main"]:
-  Option: valid value
-  Value: everything's fine
+Option: valid value
+Value: everything's fine
 INFO
 ["main"]:
-  Result: it's alright we can handle this
+Result: it's alright we can handle this
 WARN
 ["main"]:
-  Option: option was None
+Option: option was None
 INFO
 ["main"]:
-  Result: 
+Result: 
 WARN
 ["main"]:
-  error was: "oh no something happened!", but we're all good anyways
+error was: "oh no something happened!", but we're all good anyways
 INFO
 ["main"]:
-  Result: error handled
+Result: error handled
 ```
 
 ## Contributing
