@@ -18,7 +18,7 @@ Add the following to your `cargo.toml`:
 
 ```toml
 [dependencies]
-info_utils = "1.3.0"
+info_utils = "1.3.1"
 ```
 
 ### Use in Rust Code
