@@ -17,7 +17,7 @@ macro_rules! log {
         eprintln!("\x1b[1;34mINFO\x1b[0m\r");
         println!("\x1b[36m[{:?}]:\x1b[39m\r", std::thread::current().name().unwrap_or("<unknown>"));
         for line in binding.lines() {
-            eprint!("  ");
+            // eprint!("  ");
             println!("{}\r", line);
         }
     }}

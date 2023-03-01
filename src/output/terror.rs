@@ -26,7 +26,7 @@ macro_rules! terror {
             eprintln!("\x1b[1;31mERR\x1b[0m\r");
             println!("\x1b[36m[{:?}]:\x1b[39m\r", std::thread::current().name().unwrap_or("<unknown>"));
             for line in binding.lines() {
-                eprint!("  ");
+                // eprint!("  ");
                 println!("{}\r", line);
             }
         std::panic::set_hook(Box::new(|_|{}));
