@@ -4,7 +4,7 @@ Utilities for logging and error-handling in Rust.
 
 ## Features
 
-- `log!`, `warn!`, `terror!`, and `error!` macros for convenient and informational data display
+- `log!`, `warn!`, and `error!` macros for convenient and informational data display
 
 - `eval()` as a drop in for `unwrap()`
 
@@ -21,6 +21,12 @@ Add the following to your `cargo.toml`:
 info_utils = "1.3.1"
 ```
 
+Or run
+
+```bash
+cargo add info_utils
+```
+
 ### Use in Rust Code
 
 #### Macros
@@ -34,7 +40,7 @@ fn main() {
     let x = 10;
     log!("Value is {}", x);
     warn!("{} is greater than 3", x);
-    exit!("x is equal to {}, exiting..", x); // Exits with error code
+    error!("x is equal to {}, exiting..", x); // Exits with error code
 }
 ```
 
@@ -45,15 +51,9 @@ fn main() {
    Compiling demo v0.1.0 (/Path/To/Project)
     Finished dev [unoptimized + debuginfo] target(s) in 0.15s
      Running `target/debug/demo`
-INFO
-["main"]:
-Value is 10
-WARN
-["main"]:
-10 is greater than 3
-ERR
-["main"]:
-x is equal to 10, exiting..
+info  ["main"]: Value is 10
+warn  ["main"]: 10 is greater than 3
+error ["main"]: x is equal to 10, exiting..
 ```
 
 > Terminal output is color formatted
@@ -90,15 +90,9 @@ fn main() {
    Compiling demo v0.1.0 (/Path/To/Project)
     Finished dev [unoptimized + debuginfo] target(s) in 0.15s
      Running `target/debug/demo`
-INFO
-["main"]:
-Hello from main thread!
-WARN
-["<unknown>"]:
-This thread doesn't have a name!
-INFO
-["named thread"]:
-Hello from inside a named thread!
+info  ["main"]: Hello from main thread!
+info  ["named thread"]: Hello from inside a named thread!
+info  ["<unknown>"]: Hello from inside an unnamed thread!
 ```
 
 #### Eval
@@ -125,14 +119,9 @@ fn main() {
 ❯ cargo run
    Compiling demo v0.1.0 (/Path/To/Project)
     Finished dev [unoptimized + debuginfo] target(s) in 0.15s
-     Running `target/debug/demo`INFO
-INFO
-["main"]:
-Option: valid value
-Value: everything's fine
-ERR
-["main"]:
-"oh no something happened!"
+     Running `target/debug/demo`
+info  ["main"]: Option: valid value - Value: everything's fine
+error ["main"]: "oh no something happened!"
 ```
 
 ##### Other Functions
@@ -167,26 +156,13 @@ fn main() {
 ❯ cargo run
    Compiling demo v0.1.0 (/Path/To/Project)
     Finished dev [unoptimized + debuginfo] target(s) in 0.15s
-     Running `target/debug/demo`INFO
-INFO
-["main"]:
-Option: valid value
-Value: everything's fine
-INFO
-["main"]:
-Result: it's alright we can handle this
-WARN
-["main"]:
-Option: option was None
-INFO
-["main"]:
-Result: 
-WARN
-["main"]:
-error was: "oh no something happened!", but we're all good anyways
-INFO
-["main"]:
-Result: error handled
+     Running `target/debug/demo`
+info  ["main"]: Option: valid value - Value: everything's fine
+info  ["main"]: Result: it's alright we can handle this
+warn  ["main"]: Option: option was None
+info  ["main"]: Result: 
+warn  ["main"]: error was: "oh no something happened!", but we're all good anyways
+info  ["main"]: Result: error handled
 ```
 
 ## Contributing
