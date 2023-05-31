@@ -18,7 +18,7 @@ Add the following to your `cargo.toml`:
 
 ```toml
 [dependencies]
-info_utils = "2.0.0"
+info_utils = "2"
 ```
 
 Or run
