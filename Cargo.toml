@@ -1,8 +1,8 @@
 [package]
 name = "info_utils"
-version = "2.0.0"
+version = "2.2.0"
 edition = "2021"
-authors = ["secondary-smiles <shavkinder@lightblog.dev>"]
+authors = ["Shav Kinderlehrer <shav@trinket.icu>"]
 repository = "https://github.com/secondary-smiles/info_utils"
 description = "Utilities for displaying Options, Results, and logging in a pleasant manner"
 readme = "README.md"
