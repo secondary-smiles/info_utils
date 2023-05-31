@@ -34,7 +34,7 @@
 macro_rules! error {
     ($($msg:tt)*) => {{
         let binding = format!("{}",format_args!($($msg)*));
-        println!("\x1b[0;1;31merror\x1b[0;36m [{:?}]:\x1b[0m {}", std::thread::current().name().unwrap_or("<unknown>"), binding);
+        eprintln!("\x1b[0;1;31merror\x1b[0;36m [{:?}]:\x1b[0m {}", std::thread::current().name().unwrap_or("<unknown>"), binding);
 
             // eprintln!("\x1b[1;31mERR\x1b[0m\r");
             // println!("\x1b[36m[{:?}]:\x1b[39m\r", std::thread::current().name().unwrap_or("<unknown>"));
