@@ -2,6 +2,6 @@
 //!
 //!Drop-in minimal logging macros
 
-pub mod error;
-pub mod log;
-pub mod warn;
+pub mod errors;
+pub mod logs;
+pub mod warns;

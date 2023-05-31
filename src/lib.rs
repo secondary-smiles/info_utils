@@ -6,12 +6,13 @@
 //!- `log!`, `warn!` and `error!` macros
 //!- `eval()` as a drop-in method for `unwrap()`
 
-pub mod output;
 pub mod eval;
+pub mod output;
 
 /// Import all features
 pub mod prelude {
-    pub use crate::{log, error, warn};
+    pub use crate::{error, log, warn};
+    pub use crate::{errors, logs, warns};
 
     pub use crate::eval::eval_option::EvalOption;
     pub use crate::eval::eval_result::EvalResult;
@@ -19,5 +20,6 @@ pub mod prelude {
 
 /// Import only logging macros
 pub mod macros {
-    pub use crate::{log, error, warn};
+    pub use crate::{error, log, warn};
+    pub use crate::{errors, logs, warns};
 }
