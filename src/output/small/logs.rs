@@ -13,6 +13,6 @@
 macro_rules! logs {
     ($($msg:tt)*) => {{
         let binding = format!("{}",format_args!($($msg)*));
-        eprintln!("\x1b[0;1;34minfo :\x1b[0m {}", binding);
+        eprintln!("\x1b[0;1;34minfo \x1b[0m {}", binding);
     }}
 }
