@@ -2,22 +2,30 @@
 //!
 //! `eval()` implemented for the `Result<T, E>` type
 
+use crate::errors;
 use std::fmt::Display;
-use crate::{error};
 
 /// Eval Option trait that enables `eval()` for the `Result<T, E>` type
 pub trait EvalResult<T, E> {
-    fn eval(self) -> T where E: std::fmt::Debug;
+    fn eval(self) -> T
+    where
+        E: std::fmt::Debug;
     fn eval_or(self, sub: T) -> T;
-    fn eval_or_default(self) -> T where T: Default;
-    fn eval_or_else<F>(self, func: F) -> T where F: FnOnce(E) -> T;
-    fn should<M>(self, panic: M) -> T where M: std::fmt::Display;
+    fn eval_or_default(self) -> T
+    where
+        T: Default;
+    fn eval_or_else<F>(self, func: F) -> T
+    where
+        F: FnOnce(E) -> T;
+    fn should<M>(self, panic: M) -> T
+    where
+        M: std::fmt::Display;
 }
 
 impl<T, E: std::fmt::Debug> EvalResult<T, E> for Result<T, E> {
     /// Drop-in for the `unwrap()` function
     ///
-    /// returns `v` if `Ok()`; else calls an `error!`
+    /// returns `v` if `Ok()`; else calls an `errors!`
     ///
     /// Example
     /// ```rust
@@ -27,14 +35,15 @@ impl<T, E: std::fmt::Debug> EvalResult<T, E> for Result<T, E> {
     ///     assert_eq!(foo.eval(), 7);
     /// # }
     /// ```
-    fn eval(self) -> T where E: std::fmt::Debug,
+    fn eval(self) -> T
+    where
+        E: std::fmt::Debug,
     {
         match self {
             Ok(v) => v,
-            Err(e) => error!("{:?}", e)
+            Err(e) => errors!("{:?}", e),
         }
     }
-
 
     /// Drop-in for the `unwrap_or()` function
     ///
@@ -54,7 +63,7 @@ impl<T, E: std::fmt::Debug> EvalResult<T, E> for Result<T, E> {
     fn eval_or(self, sub: T) -> T {
         match self {
             Ok(v) => v,
-            Err(_) => sub
+            Err(_) => sub,
         }
     }
 
@@ -72,10 +81,13 @@ impl<T, E: std::fmt::Debug> EvalResult<T, E> for Result<T, E> {
     ///     assert_eq!(foo.eval_or_default(), 0);
     /// # }
     /// ```
-    fn eval_or_default(self) -> T where T: Default {
+    fn eval_or_default(self) -> T
+    where
+        T: Default,
+    {
         match self {
             Ok(v) => v,
-            Err(_) => Default::default()
+            Err(_) => Default::default(),
         }
     }
 
@@ -94,7 +106,10 @@ impl<T, E: std::fmt::Debug> EvalResult<T, E> for Result<T, E> {
     ///     assert_eq!(foo.eval_or_else(|d| d.len() as u16), 5);
     /// # }
     /// ```
-    fn eval_or_else<F>(self, func: F) -> T where F: FnOnce(E) -> T {
+    fn eval_or_else<F>(self, func: F) -> T
+    where
+        F: FnOnce(E) -> T,
+    {
         match self {
             Ok(v) => v,
             Err(e) => func(e),
@@ -104,7 +119,7 @@ impl<T, E: std::fmt::Debug> EvalResult<T, E> for Result<T, E> {
     /// Drop-in for the `expect()` function
     ///
     ///## ⚠WARNING⚠
-    /// Currently, the `should()` function calls the `error!` macro instead of the `terror!` macro on a failure. See the warnings on each of those macros for more information.
+    /// Currently, the `should()` function calls the `errors!` macro instead of the `terrors!` macro on a failure. See the warnings on each of those macros for more information.
     ///
     /// This may cause unexpected behaviour, so be careful using it in threads
     ///
@@ -118,10 +133,13 @@ impl<T, E: std::fmt::Debug> EvalResult<T, E> for Result<T, E> {
     ///     assert_eq!(foo.should("Should be set in initializer"), 7);
     /// # }
     /// ```
-    fn should<M>(self, panic: M) -> T where M: Display {
+    fn should<M>(self, panic: M) -> T
+    where
+        M: Display,
+    {
         match self {
             Ok(v) => v,
-            Err(e) => error!("{}. Error: {:?}", panic, e)
+            Err(e) => errors!("{}. Error: {:?}", panic, e),
         }
     }
 }

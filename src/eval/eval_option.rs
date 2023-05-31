@@ -2,21 +2,27 @@
 //!
 //! `eval()` implemented for the `Option<T>` type
 
-use crate::error;
+use crate::errors;
 
 /// Eval Option trait that enables `eval()` for the `Option<T>` type
 pub trait EvalOption<T> {
     fn eval(self) -> T;
     fn eval_or(self, sub: T) -> T;
-    fn eval_or_default(self) -> T where T: Default;
-    fn eval_or_else<F>(self, func: F) -> T where F: FnOnce() -> T;
-    fn should<M>(self, panic: M) -> T where M: std::fmt::Display;
+    fn eval_or_default(self) -> T
+    where
+        T: Default;
+    fn eval_or_else<F>(self, func: F) -> T
+    where
+        F: FnOnce() -> T;
+    fn should<M>(self, panic: M) -> T
+    where
+        M: std::fmt::Display;
 }
 
 impl<T> EvalOption<T> for Option<T> {
     /// Drop-in for the `unwrap()` function
     ///
-    /// returns `v` if `Some`; else calls an `error!`
+    /// returns `v` if `Some`; else calls an `errors!`
     ///
     /// Example
     /// ```rust
@@ -35,7 +41,7 @@ impl<T> EvalOption<T> for Option<T> {
     fn eval(self) -> T {
         match self {
             Some(v) => v,
-            None => error!("called `Option::eval()` on a `None` value")
+            None => errors!("called `Option::eval()` on a `None` value"),
         }
     }
 
@@ -64,7 +70,7 @@ impl<T> EvalOption<T> for Option<T> {
     fn eval_or(self, sub: T) -> T {
         match self {
             Some(v) => v,
-            None => sub
+            None => sub,
         }
     }
 
@@ -90,7 +96,10 @@ impl<T> EvalOption<T> for Option<T> {
     /// assert_eq!(val.data.eval_or_default(), 0);
     /// # }
     /// ```
-    fn eval_or_default(self) -> T where T: Default {
+    fn eval_or_default(self) -> T
+    where
+        T: Default,
+    {
         match self {
             Some(v) => v,
             None => Default::default(),
@@ -120,7 +129,10 @@ impl<T> EvalOption<T> for Option<T> {
     /// assert_eq!(val.data.eval_or_else(|| 3 * bar), 30);
     /// # }
     /// ```
-    fn eval_or_else<F>(self, func: F) -> T where F: FnOnce() -> T {
+    fn eval_or_else<F>(self, func: F) -> T
+    where
+        F: FnOnce() -> T,
+    {
         match self {
             Some(v) => v,
             None => func(),
@@ -130,7 +142,7 @@ impl<T> EvalOption<T> for Option<T> {
     /// Drop-in for the `expect()` function
     ///
     ///## ⚠WARNING⚠
-    /// Currently, the `should()` function calls the `error!` macro instead of the `terror!` macro on a failure. See the warnings on each of those macros for more information.
+    /// Currently, the `should()` function calls the `errors!` macro instead of the `terrors!` macro on a failure. See the warnings on each of those macros for more information.
     ///
     /// This may cause unexpected behaviour, so be careful using it in threads
     ///
@@ -156,10 +168,13 @@ impl<T> EvalOption<T> for Option<T> {
     /// */
     /// # }
     /// ```
-    fn should<M>(self, panic: M) -> T where M: std::fmt::Display {
+    fn should<M>(self, panic: M) -> T
+    where
+        M: std::fmt::Display,
+    {
         match self {
             Some(v) => v,
-            None => error!("{}", panic),
+            None => errors!("{}", panic),
         }
     }
 }
@@ -174,9 +189,7 @@ mod tests {
             data: Option<i32>,
         }
 
-        let val: Foo = Foo {
-            data: Some(7)
-        };
+        let val: Foo = Foo { data: Some(7) };
         assert_eq!(val.data.eval(), 7);
     }
 
@@ -186,9 +199,7 @@ mod tests {
             data: Option<&'a str>,
         }
 
-        let mut val: Foo = Foo {
-            data: Some("info")
-        };
+        let mut val: Foo = Foo { data: Some("info") };
 
         assert_eq!(val.data.eval_or("data"), "info");
 
@@ -202,9 +213,7 @@ mod tests {
             data: Option<i32>,
         }
 
-        let mut val: Foo = Foo {
-            data: Some(7)
-        };
+        let mut val: Foo = Foo { data: Some(7) };
 
         assert_eq!(val.data.eval_or_default(), 7);
 
@@ -218,9 +227,7 @@ mod tests {
             data: Option<i32>,
         }
 
-        let mut val: Foo = Foo {
-            data: Some(7)
-        };
+        let mut val: Foo = Foo { data: Some(7) };
 
         let bar = 10;
         assert_eq!(val.data.eval_or_else(|| 3 * bar), 7);
@@ -235,15 +242,11 @@ mod tests {
             data: Option<i32>,
         }
 
-        let val: Foo = Foo {
-            data: Some(7)
-        };
+        let val: Foo = Foo { data: Some(7) };
         assert_eq!(val.data.should("Data set to Some by initialization"), 7);
 
         // Also works with other data types that implement std::fmt::Display
-        let val: Foo = Foo {
-            data: Some(7)
-        };
+        let val: Foo = Foo { data: Some(7) };
         assert_eq!(val.data.should(7 as f32 * 3.7), 7);
     }
 }
